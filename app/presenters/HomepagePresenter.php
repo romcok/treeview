@@ -45,9 +45,15 @@ class HomepagePresenter extends BasePresenter
 		$tree->rememberState = true;
 		$tree->addLink('default', 'name', 'id', true, $this->presenter);
 		$tree->dataSource = SitemapModel::findAll();
+		
+		//$tree->renderer->wrappers['link']['collapse'] = null;
+		//$tree->renderer->wrappers['link']['expand'] = null;
+		//$tree->renderer->wrappers['node']['icon'] = null;
+		
 		$tree->renderer->wrappers['link']['collapse'] = 'a class="ui-icon ui-icon-circlesmall-minus" style="float: left"';
 		$tree->renderer->wrappers['link']['expand'] = 'a class="ui-icon ui-icon-circlesmall-plus" style="float: left"';
 		$tree->renderer->wrappers['node']['icon'] = 'span class="ui-icon ui-icon-document" style="float: left"';
+
 		return $tree;
 	}
 }

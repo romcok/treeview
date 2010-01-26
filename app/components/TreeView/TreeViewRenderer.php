@@ -63,22 +63,26 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 	if(count($nodes) > 0) {
 	    switch($node->getState()) {
 		case TreeViewNode::EXPANDED:
-		    $stateLink = $this->renderLink($node['stateLink'], 'link collapse');
+		    $stateLink = $this->renderLink($node, 'stateLink', 'link collapse');
 		    break;
 		case TreeViewNode::COLLAPSED:
-		    $stateLink = $this->renderLink($node['stateLink'], 'link expand');
+		    $stateLink = $this->renderLink($node, 'stateLink', 'link expand');
 		    break;
 	    }
-	    $nodeContainer->add($stateLink);
+	    if(null !== $stateLink) {
+		    $nodeContainer->add($stateLink);
+		}
 	}
 	else {
 	    $icon = $this->getWrapper('node icon');
 	    if(null !== $icon) {
-		$nodeContainer->add($icon);
+			$nodeContainer->add($icon);
 	    }
 	}
-	$link = $this->renderLink($node['nodeLink']);
-	$nodeContainer->add($link);
+	$link = $this->renderLink($node, 'nodeLink');
+	if(null !== $link) {
+		$nodeContainer->add($link);
+	}
 	$this->tree->onNodeRender($this->tree, $node, $nodeContainer);
 	if(TreeViewNode::EXPANDED === $node->getState() && count($nodes) > 0) {
 	    $nodesContainer = $this->renderNodes($nodes);
@@ -93,9 +97,13 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 	return $html;
     }
 
-    public function renderLink(TreeViewLink $link, $wrapper = 'link node')
+    public function renderLink(TreeViewNode $node, $name, $wrapper = 'link node')
     {
 	$el = $this->getWrapper($wrapper);
+	if(null === $el) {
+		return null;
+	}
+	$link = $node[$name];
 	if($link->useAjax) {
 	    $class = $el->class;
 	    $ajaxClass = $this->getValue('link .ajax');
@@ -113,6 +121,9 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
     protected function getWrapper($name)
     {
 	$data = $this->getValue($name);
+	if(empty($data)) {
+		return $data;
+	}
 	return $data instanceOf Html ? clone $data : Html::el($data);
     }
 
