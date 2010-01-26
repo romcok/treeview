@@ -1,0 +1,22 @@
+@{block #content}
+
+<div id="header">
+	<h1>TreeView</h1>
+
+	<h2>Nette Framework example.</h2>
+</div>
+
+<br />
+
+{snippet message}
+{if isset($site)}
+	<div class="ui-widget ui-state-highlight ui-corner-all">
+		You clicked on "{$site->name}" link in tree view example.
+	</div>
+{/if}
+{/snippet}
+{snippet mode}
+	Modes: 	<a href="{link mode!, TreeView::EXPANDED}" class="ajax{if $mode==TreeView::EXPANDED} active{/if}">Expanded</a> | <a href="{link mode!, TreeView::AJAX}" class="ajax{if $mode==TreeView::AJAX} active{/if}">Ajax</a>
+{/snippet}
+
+@{widget tree}
