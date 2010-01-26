@@ -12,7 +12,7 @@
  * @copyright  Copyright (c) 2009 Roman Novák
  * @license    New-BSD
  * @link       http://nettephp.com/cs/extras/treeview
- * @version    0.5.2
+ * @version    0.6.0a
  */
 
 /* Changes */
@@ -31,7 +31,7 @@
  * v0.5.2
  * - non implemented message
  * - removed typ comparsion from template
- * v0.6.0
+ * v0.6.0a
  * - throws exception if datasource is missing
  * - array access
  * - default parameters
@@ -45,7 +45,8 @@
  * TreeView Control
  *
  * @author     Roman Novák
- * @copyright  Copyright (c) 2009 Roman Novák
+ * @copyright  Copyright (c) 2009, 2010 Roman Novák
+ * @package    nette-treeview
  */
 class TreeView extends TreeViewNode
 {
