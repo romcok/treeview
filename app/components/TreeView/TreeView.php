@@ -58,6 +58,9 @@ class TreeView extends TreeViewNode
     /** @var event */
     public $onNodeRender;
 
+    /** @var event */
+    public $onFetchDataSource;
+
     /** @var bool */
     public $useAjax = true;
 

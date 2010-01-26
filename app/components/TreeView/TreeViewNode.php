@@ -62,6 +62,9 @@ class TreeViewNode extends Control
     protected function getDataRows()
     {
 	$ds = clone $this->treeView->dataSource;
+	if(!empty($this->treeView->onFetchDataSource)) {
+	    $this->treeView->onFetchDataSource($this, $ds);
+	}
 	if(null === $ds) {
 	    throw new InvalidStateException('Missing data source.');
 	}
