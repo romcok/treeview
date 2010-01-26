@@ -46,12 +46,12 @@ class TreeViewNode extends Control
 	elseif($ds instanceOf IDataSource) {
 	    $parent = $this->getParent();
 	    if($parent instanceOf TreeViewNode && !empty($this->dataRow)) {
-		$ds->where('parentId=%i', $this->dataRow['id']);
+		$ds->where('%n=%i', $this->treeView->parentColumn, $this->dataRow[$this->treeView->primaryKey]);
 	    }
 	    else {
-		$ds->where('parentId IS NULL');
+		$ds->where('%n IS NULL', $this->treeView->parentColumn);
 	    }
-	    $dataRows = $ds->fetchAssoc('id');
+	    $dataRows = $ds->fetchAssoc($this->treeView->primaryKey);
 	}
 	else {
 	    throw new InvalidStateException('DataSource must implement IDataSource interface.');
@@ -66,7 +66,7 @@ class TreeViewNode extends Control
 	    $dataRows = TreeView::EXPANDED !== $this->treeView->mode ? $this->getDataRows() : $this->treeView->getDataRows();
 	    foreach($dataRows as $dataRow) {
 		if((empty($this->dataRow) && empty($dataRow->parentId)) || (!empty($this->dataRow) && $this->dataRow->id === $dataRow->parentId)) {
-		    $name = $dataRow['id']; //TODO: id!!!
+		    $name = $dataRow[$this->treeView->primaryKey];
 		    $node = new TreeViewNode($this, $name, $dataRow);
 		    $node['nodeLink'] = clone $this['nodeLink'];
 		    if(TreeView::EXPANDED === $this->treeView->mode && 
