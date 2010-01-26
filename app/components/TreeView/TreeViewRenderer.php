@@ -10,6 +10,7 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 	    'container' => 'div'
 	),
 	'nodes' => array(
+		'root' => 'ul',
 	    'container' => 'ul'
 	),
 	'node' => array(
@@ -30,7 +31,7 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 	    $this->tree = $tree;
 	}
 	$snippetId = $this->tree->getSnippetId();
-	$html = $this->renderNodes($this->tree->getNodes(), 'tree container');
+	$html = $this->renderNodes($this->tree->getNodes(), 'nodes root');
 	if($this->tree->isControlInvalid() && $this->tree->getPresenter()->isAjax()) {
 	    $this->tree->getPresenter()->getPayload()->snippets[$snippetId] = (string)$html;
 	}
@@ -44,7 +45,7 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 
     public function renderNodes($nodes, $wrapper = 'nodes container')
     {
-	$nodesContainer = $this->getWrapper('nodes container');
+	$nodesContainer = $this->getWrapper($wrapper);
 	foreach($nodes as $n) {
 	    $child = $this->renderNode($n);
 	    if(null !== $child) {
