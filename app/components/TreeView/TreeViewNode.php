@@ -69,7 +69,9 @@ class TreeViewNode extends Control
 		    $name = $dataRow['id']; //TODO: id!!!
 		    $node = new TreeViewNode($this, $name, $dataRow);
 		    $node['nodeLink'] = clone $this['nodeLink'];
-		    if(TreeView::EXPANDED === $this->treeView->mode && !$node->isSessionState()) {
+		    if(TreeView::EXPANDED === $this->treeView->mode && 
+		    (($this->treeView->rememberState && !$node->isSessionState()) ||
+		    !$this->treeView->rememberState)) {
 			$node->expand();
 		    }
 		}

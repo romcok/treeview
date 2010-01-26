@@ -42,7 +42,7 @@ class HomepagePresenter extends BasePresenter
 		$mode = null === $this->mode ? 1 : $this->mode;
 		$session = Environment::getSession();
 		$tree->mode = $mode;
-		$tree->rememberState = true;
+		//$tree->rememberState = true;
 		$tree->addLink('default', 'name', 'id', true, $this->presenter);
 		$tree->dataSource = SitemapModel::findAll();
 		$tree->renderer->wrappers['link']['collapse'] = 'a class="ui-icon ui-icon-circlesmall-minus" style="float: left"';
