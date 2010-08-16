@@ -45,6 +45,7 @@ class HomepagePresenter extends BasePresenter
 		$tree->rememberState = true;
 		$tree->addLink('default', 'name', 'id', true, $this->presenter);
 		$tree->dataSource = SitemapModel::findAll();
+		//$tree->enableSorting(array($this, 'move'));
 		
 		//$tree->renderer->wrappers['link']['collapse'] = null;
 		//$tree->renderer->wrappers['link']['expand'] = null;
@@ -55,5 +56,10 @@ class HomepagePresenter extends BasePresenter
 		$tree->renderer->wrappers['node']['icon'] = 'span class="ui-icon ui-icon-document" style="float: left"';
 
 		return $tree;
+	}
+	
+	public function move($direction)
+	{
+		
 	}
 }

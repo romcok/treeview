@@ -45,6 +45,12 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 	    'expand' => 'a',
 	    '.ajax' => 'ajax',
 	),
+	'sortable' => array(
+		'up' => 'a',
+		'down' => 'a',
+		'left' => 'a',
+		'right' => 'a'
+	)
     );
 
     public function render(TreeView $tree)
@@ -55,7 +61,7 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 	$snippetId = $this->tree->getSnippetId();
 	$html = $this->renderNodes($this->tree->getNodes(), 'nodes root');
 	if($this->tree->isControlInvalid() && $this->tree->getPresenter()->isAjax()) {
-	    $this->tree->getPresenter()->getPayload()->snippets[$snippetId] = (string)$html;
+		$this->tree->getPresenter()->getPayload()->snippets[$snippetId] = (string)$html;
 	}
 	if(!$this->tree->getPresenter()->isAjax()) {
 	    $treeContainer = $this->getWrapper('tree container');
@@ -106,6 +112,16 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 	if(null !== $link) {
 		$nodeContainer->add($link);
 	}
+	if($this->tree->sortable)	
+	foreach(array('up', 'down', 'left', 'right') as $direction) {
+		$nodeContainer->add($this->renderSortableLink($node, $direction));
+	}
+	
+	//$up = $this->renderLink($node, 'moveUpLink', 'sorting up');
+	//$down = $this->renderLink($node, 'moveDownLink', 'sorting down');
+	//$left = $this->renderLink($node, 'moveLeftLink', 'sorting left');
+	//$right = $this->renderLink($node, 'moveRightLink', 'sorting right');
+	
 	$this->tree->onNodeRender($this->tree, $node, $nodeContainer);
 	if(TreeViewNode::EXPANDED === $node->getState() && count($nodes) > 0) {
 	    $nodesContainer = $this->renderNodes($nodes);
@@ -140,6 +156,26 @@ class TreeViewRenderer extends Object implements ITreeViewRenderer
 	$el->href($link->getUrl());
 	return $el;
     }
+
+	public function renderSortableLink($node, $direction)
+	{
+		$el = $this->getWrapper('sortable ' . $direction);
+		if(null === $el) {
+			return null;
+		};
+		if($node->getTreeView()->useAjax) {
+			$class = $el->class;
+			$ajaxClass = $this->getValue('link .ajax');
+			if(!empty($class) && !empty($ajaxClass)) {
+				$ajaxClass = $class . ' ' . $ajaxClass;
+			}
+			$el->class = $ajaxClass;
+		}
+		$el->setText($direction);
+		$link = $node->createSortableLink($direction);
+		$el->href($link);
+		return $el;
+	}
 
     protected function getWrapper($name)
     {

@@ -79,6 +79,9 @@ class TreeView extends TreeViewNode
     /** @var string */
     public $parentColumn = 'parentId';
 
+    /** @var int */
+    public $defaultParentValue = null;
+
     /** @var ITreeViewRenderer */
     protected $renderer;
 
@@ -90,6 +93,12 @@ class TreeView extends TreeViewNode
 
     /** @var array used for expanded mode */
     protected $dataRows;
+
+	/** @var bool */
+	protected $sortable = false;
+
+	/** @var Callback */	
+	protected $sortableCallback;
 
     /**
      * Adds link
@@ -200,6 +209,28 @@ class TreeView extends TreeViewNode
     {
 	$this->mode = (int)$mode;
     }
+    
+	public function handleMove($direction)
+	{
+
+	}
+    
+	public function enableSorting($callback)
+	{
+		$this->sortable = true;
+		$this->sortableCallback = $callback;
+	}
+
+	public function disableSorting($callback)
+	{
+		$this->sortable = false;
+		$this->sortableCallback = null;	
+	}
 
     /******************** properties ********************/
+
+	public function getSortable()
+	{
+		return $this->sortable;
+	}
 }
